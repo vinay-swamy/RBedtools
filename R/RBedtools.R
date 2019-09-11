@@ -1,5 +1,13 @@
+#' Main interface to bedtools
+#' @param tool which bedtools function to use
+#' @param options A character vector containing options to use for tools. use bedtools intersec -h on CL to see options
+#' @param output can be either a path to a file to write to, or 'stdout' to direct output to new bedtools command
+#' @param ... Arguments to pass to bed tools that are specfic to tool
+#' @return  a bedtools object that points to an output file, or bedtools command object to add to another command
+#' @export
+
 #main functions
-RBedtools <- function(tool, options, output, ...){
+RBedtools <- function(tool, options='', output=tmp_loc(), ...){
     input_raw <- list(...)
     input_raw <- process_bt_obj(input_raw)  #check if inputs contain any bedtools command objects
 

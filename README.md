@@ -65,9 +65,8 @@ args('RBedtools')
 sort, closest etc
 
 `options` are the options for selected tool. It must be formated as a
-single character vector in the following way:
-
-`'-option1 input1 option2 input2'` the default option is no option
+single character vector in the following way: `'-option1 input1 option2
+input2'` the default option is no option
 
 `output` can one of three options: blank, a character vector specifying
 a location to write a bed file, or `'stdout'` signifying the output of
@@ -75,14 +74,14 @@ this bedtools command will be piped to another command. More on that
 below
 
 `...` The actual arguments for the bedtools function, in the following
-format: `arg1=a.bed, arg2=b.bed`
+format: `arg1='<path_to_bed>', arg2='<path_to_bed>'`
 
 #### helpers
 
 there are 2 functions to allow for use of data frame, `from_data_frame`,
 and `to_data_frame`
 
-`from_data_fram` takes a data frame as an input and returns a bedtools
+`from_data_frame` takes a data frame as an input and returns a bedtools
 object
 
 `to_data_frame` takes a bedtools object and returns a data frame
@@ -98,7 +97,7 @@ sorted.bed <- RBedtools(tool = 'sort', i='data/gerp.chr1.bed.gz')
 unclass(sorted.bed)
 ```
 
-    [1] "/tmp/mksgjb.bed"
+    [1] "/tmp/kceIDF.bed"
 
 otherwise the bed is written to the output
 argument
@@ -107,7 +106,7 @@ argument
 sorted.bed <- RBedtools(tool = 'sort',output = 'sorted.bed' i='data/gerp.chr1.bed.gz')
 ```
 
-use the `to_dataframe` command to convert a `bt_obj` to a dataframe
+use the `to_data_frame` command to convert a `bt_obj` to a dataframe
 
 ``` r
 sorted.bed <- RBedtools(tool = 'sort', i='data/gerp.chr1.bed.gz')
@@ -144,12 +143,13 @@ head(sorted.bed.df)
     6 chr1  17604 17751 1.40e- 9
 
 Use a single character vector for `options` to specfify options for
-bedtools command. format `options` as you would on the command
-line
+bedtools command. format `options` as you would on the command line
 
 ``` r
-intersect_loj <-  RBedtools(tool = 'intersect',options = '-loj', a='data/gerp.chr1.bed.gz', b='data/aluY.chr1.bed.gz') %>% 
-    to_data_frame
+intersect_loj <- RBedtools(tool = 'intersect',
+                            options = '-loj',
+                            a='data/gerp.chr1.bed.gz',
+                            b='data/aluY.chr1.bed.gz') %>% to_data_frame
 head(intersect_loj)
 ```
 
@@ -168,7 +168,7 @@ head(intersect_loj)
 Using an R data frame
 
 ``` r
-closest <-  sorted.bed.df %>% from_data_frame %>% 
+closest <- sorted.bed.df %>% from_data_frame %>% 
     RBedtools('closest', a=., b='data/gerp.chr1.bed.gz') %>% to_data_frame
 head(closest)
 ```
@@ -189,7 +189,7 @@ using `.` place holder for one of the arguments in the second
 command.
 
 ``` r
-sort_and_intersect <-RBedtools(tool = 'sort', output = 'stdout', i='data/gerp.chr1.bed.gz') %>% 
+sort_and_intersect <- RBedtools(tool = 'sort', output = 'stdout', i='data/gerp.chr1.bed.gz') %>% 
     RBedtools(tool = 'intersect', a=., b='data/aluY.chr1.bed.gz') %>% 
     to_data_frame 
 head(sort_and_intersect)
@@ -208,7 +208,7 @@ head(sort_and_intersect)
 An importnant note about piping multiple RBedtools commands
 
 Using `'stdout'` makes `RBedtools` return a `bt_cmd` object, which is a
-contructed but unrun
+constructed but unrun
 command
 
 ``` r
@@ -228,10 +228,9 @@ unclass(output_for_pipe)
     [1] "sort  -i data/gerp.chr1.bed.gz |"
 
 if you do not specify `'stdout'` when chaining commands, the code will
-still run, but the output of each command will be written and read each
-time, which may significantly slow down your code
+still run, but the output of each command will be written to a file and
+read each time, which may significantly slow down your code
 
 Full Disclaimer, I havent tested this on all the bedtools functions. I
 use the sorted, intersect and closest the most, so these are the ones I
-tested on. If you find a bug/have any improvements/want to let me into
-your graduate program/ feel free to let me know.
+tested on. If you find a bug/have any improvements, let me know.

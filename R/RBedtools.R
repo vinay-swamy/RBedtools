@@ -2,7 +2,7 @@
 #' @param tool which bedtools function to use
 #' @param options A character vector containing options to use for tools. use bedtools intersec -h on CL to see options
 #' @param output can be either a path to a file to write to, or 'stdout' to direct output to new bedtools command
-#' @param ... Arguments to pass to bed tools that are specfic to tool
+#' @param ... Arguments to pass to bed tools that are specfic to tool ie a=a.bed, b=b.bed
 #' @return  a bedtools object that points to an output file, or bedtools command object to add to another command
 #' @export
 
@@ -33,7 +33,11 @@ RBedtools <- function(tool, options='', output=tmp_loc(), ...){
         cmd <- paste(cmd, '|')
         return(bedtools_command(cmd))
     } else {
-        cmd <- paste(cmd, '>', output)
+        if (grepl('\\.gz$', output)){
+            cmd <- paste(cmd, '| gzip -c - >', output)
+        }else{
+            cmd <- paste(cmd, '>', output)
+        }
         system2('bedtools', cmd)
         return(bedtools_obj(output))
     }

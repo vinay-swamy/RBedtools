@@ -13,7 +13,7 @@ RBedtools(tool, options = "", output = tmp_loc(), ...)
 
 \item{output}{can be either a path to a file to write to, or 'stdout' to direct output to new bedtools command}
 
-\item{...}{Arguments to pass to bed tools that are specfic to tool}
+\item{...}{Arguments to pass to bed tools that are specfic to tool ie a=a.bed, b=b.bed}
 }
 \value{
 a bedtools object that points to an output file, or bedtools command object to add to another command

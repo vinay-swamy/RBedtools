@@ -5,6 +5,7 @@
 to_data_frame <- function(obj){
     if(!is.bt_obj(obj)) stop('Can only convert an object to a data frame')
     location <- unclass(obj)
-    df <-  suppressMessages(suppressWarnings(read_tsv(location, col_names = F)))
+    df <-  suppressMessages(suppressWarnings(fread(file = location, header = F, sep = '\t')))
+    colnames(df) <- paste0('X', 1:ncol(df))
     return(df)
 }

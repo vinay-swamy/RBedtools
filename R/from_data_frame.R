@@ -5,6 +5,7 @@
 from_data_frame <- function(df){
     stopifnot(is.data.frame(df))
     location <- tmp_loc()
-    suppressMessages(suppressWarnings(write_tsv(df, location, col_names = F)))
+    suppressMessages(suppressWarnings(fwrite(df, location, col.names = F,
+                                             row.names = F,sep = '\t', quote = F, scipen = 12)))
     return(bedtools_obj(location))
 }

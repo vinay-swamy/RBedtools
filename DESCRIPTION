@@ -1,12 +1,12 @@
 Package: RBedtools
 Type: Package
 Title: A light wrapper for the bedtools program
-Version: 0.1.0
+Version: 0.2.0
 Author: Vinay Swamy
 Maintainer: Vinay Swamy <swamyvinny@gmail.com>
-Description: This package was deigned to be an easy way to call bedtools from R. Commands can be piped together, and data frame can be used as inputs 
+Description: This package was designed to be an easy way to call bedtools from R. Commands can be piped together, and data frame can be used as inputs 
 Depends:
-    readr
+    data.table (>= 1.12.8)
 Suggests:
     dplyr
 License: GNU General Public License v3 (GPL-3)
